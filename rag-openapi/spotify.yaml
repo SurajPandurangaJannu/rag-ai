@@ -1,0 +1,39 @@
+openapi: 3.0.0
+info:
+  title: Spotify Web API
+  version: 1.0.0
+  description: API to interact with Spotify services like music, albums, playlists, and more.
+servers:
+  - url: https://apimocha.com/myapi2024
+paths:
+  /employees:
+    get:
+      summary: Get employees
+      responses:
+        '200':
+          description: Successful response
+  /albums/{id}:
+    get:
+      summary: Get an album
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+  /playlists/{id}/tracks:
+    get:
+      summary: Get playlist tracks
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of tracks in the playlist
+# Additional endpoints can be added similarly based on API docs

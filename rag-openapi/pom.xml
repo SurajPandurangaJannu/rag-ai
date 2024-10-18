@@ -7,6 +7,6 @@
         <version>0.0.1</version>
     </parent>
 
-    <artifactId>lession-0</artifactId>
+    <artifactId>rag-openapi</artifactId>
 
 </project>
