@@ -24,9 +24,12 @@ public class ExecuteController {
     }
 
     @PostMapping("/execute")
-    public ResponseEntity<Object> uploadOpenApiSpec(@RequestBody ExecuteRequest executeRequest) throws IOException {
+    public ResponseEntity<Object> executeRequest(@RequestBody ExecuteRequest executeRequest) throws IOException {
         final Response response = openApiService.execute(executeRequest);
         log.info("Received the response {} {}", response.statusCode(),response.body());
+        if (response.body() == null){
+            return new ResponseEntity<>(response.httpHeaders(),response.statusCode());
+        }
         return new ResponseEntity<>(response.body(),response.httpHeaders(),response.statusCode());
     }
 

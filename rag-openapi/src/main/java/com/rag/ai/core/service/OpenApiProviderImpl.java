@@ -1,5 +1,6 @@
 package com.rag.ai.core.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.rag.ai.core.IOpenAPIProvider;
 import com.rag.ai.core.IOpenApiExecutor;
 import com.rag.ai.core.IOpenApiVector;
@@ -34,7 +35,7 @@ public class OpenApiProviderImpl implements IOpenAPIProvider {
     }
 
     @Override
-    public void load(OpenAPIRequest openAPIRequest) {
+    public void load(OpenAPIRequest openAPIRequest)  {
         openApiVector.load(openAPIRequest);
     }
 

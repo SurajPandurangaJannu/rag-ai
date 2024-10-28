@@ -1,4 +1,4 @@
 package com.rag.ai.exception;
 
-public record Error(String message) {
+public record Error(Object message) {
 }

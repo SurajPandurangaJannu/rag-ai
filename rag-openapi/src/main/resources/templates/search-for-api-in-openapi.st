@@ -8,8 +8,9 @@ QUESTION:
 DOCUMENTS:
 {documents}
 
-Provide the more occurate path from the openapi specification and provide the result in the following {format} provided.
-Use the summary section for analysing the QUESTION asked.
+Use the following guidelines to generate the response in the FORMAT provided:
+1. In case of schema defined in DOCUMENTS section, generate the request body with the input's provided. If the enough information is not provided, ask for the information from user as response.
+2. Load the mandatory headers, query parameters and path parameters. If the enough information is not provided, ask for the information from user as response.
 
 FORMAT:
 {format}

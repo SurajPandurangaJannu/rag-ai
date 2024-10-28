@@ -6,6 +6,8 @@ import com.rag.ai.core.model.Request;
 import com.rag.ai.core.model.Response;
 import com.rag.ai.exception.NoMatchFoundException;
 import com.rag.ai.model.ExecuteRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
@@ -23,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 public class OpenApiExecutorImpl implements IOpenApiExecutor {
 
@@ -47,9 +50,9 @@ public class OpenApiExecutorImpl implements IOpenApiExecutor {
 
     @Override
     public Response execute(ExecuteRequest executeRequest) {
-        final SearchRequest request = SearchRequest.query(executeRequest.getMessage()).withTopK(3);
+        final SearchRequest request = SearchRequest.query(executeRequest.getMessage()).withTopK(1);
         final List<Document> vectorDocuments = vectorStore.similaritySearch(request);
-        final List<String> documentList = vectorDocuments.stream().map(Document::getContent).toList();
+        final List<String> documentList = vectorDocuments.stream().map(document -> document.getMetadata().toString()).toList();
         final String documents = documentList.stream().collect(Collectors.joining(System.lineSeparator()));
 
         final BeanOutputConverter<Request> beanOutputConverter = new BeanOutputConverter<>(Request.class);
@@ -58,6 +61,7 @@ public class OpenApiExecutorImpl implements IOpenApiExecutor {
         final Prompt prompt = promptTemplate.create(
                 Map.of(QUESTION,executeRequest.getMessage(),DOCUMENTS,documents, FORMAT,format));
         final String response = chatModel.call(prompt).getResult().getOutput().getContent();
+        log.info(response);
         try {
             final Request template = beanOutputConverter.convert(response);
             return restAPIExecutor.execute(template);

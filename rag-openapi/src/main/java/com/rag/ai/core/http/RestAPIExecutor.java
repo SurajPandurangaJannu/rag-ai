@@ -9,29 +9,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Component
 public class RestAPIExecutor {
 
-    private static final List<String> filterHeaders = List.of("server","date","content-length","via","alt-svc","access-control-allow-origin");
+    private static final List<String> filterHeaders = List.of("server","date","content-length","via","alt-svc","access-control-allow-origin","transfer-encoding","connection");
     private final RestTemplate restTemplate;
 
     public RestAPIExecutor(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
-    public Response execute(Request template) {
+    public Response execute(Request request) {
         final HttpHeaders headers = new HttpHeaders();
-        if (template.headers() != null) {
-            headers.setAll(template.headers());
+        if (request.headers() != null) {
+            headers.setAll(request.headers());
         }
-        final HttpEntity<Object> entity = new HttpEntity<>(template.body(), headers);
-        final HttpMethod httpMethod = getHttpMethod(template.httpMethod());
-        final String url = generateUrl(template);
-        final ResponseEntity<Object> executionResponse = restTemplate.exchange(url, httpMethod, entity, Object.class, template.pathParams());
+        final HttpEntity<Object> entity = new HttpEntity<>(request.body(), headers);
+        final HttpMethod httpMethod = getHttpMethod(request.httpMethod());
+        final String url = generateUrl(request);
+        final ResponseEntity<Object> executionResponse = restTemplate.exchange(url, httpMethod, entity, Object.class, request.pathParams());
         return new Response(executionResponse.getBody(),executionResponse.getStatusCode(), getFilteredHeaders(executionResponse));
     }
 
@@ -49,21 +48,21 @@ public class RestAPIExecutor {
         return HttpMethod.valueOf(httpMethod.toUpperCase());
     }
 
-    private String generateUrl(Request template) {
-        String path = template.path();
-        if (template.pathParams() != null) {
-            for (Map.Entry<String, String> entry : template.pathParams().entrySet()) {
+    private String generateUrl(Request request) {
+        String path = request.path();
+        if (request.pathParams() != null) {
+            for (Map.Entry<String, String> entry : request.pathParams().entrySet()) {
                 path = path.replace("{" + entry.getKey() + "}", entry.getValue());
             }
         }
 
-//        String queryParams = template.getQueryParams() != null ?
-//                template.getQueryParams().entrySet().stream()
+//        String queryParams = request.getQueryParams() != null ?
+//                request.getQueryParams().entrySet().stream()
 //                        .map(e -> e.getKey() + "=" + e.getValue())
 //                        .collect(Collectors.joining("&", "?", ""))
 //                : "";
 
-        return "https://apimocha.com/myapi2024" + path;
+        return request.urls().get(0) + path;
     }
 
 }
