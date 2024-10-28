@@ -11,4 +11,11 @@ services:
       - '5432:5432'
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-      - ./data:/data
+
+  rag-wiremock-spr:
+    image: 'wiremock/wiremock:latest'
+    command: '--global-response-templating --verbose --jetty-header-buffer-size 16384'
+    ports:
+      - "9090:8080"
+    volumes:
+      - ./mock:/home/wiremock

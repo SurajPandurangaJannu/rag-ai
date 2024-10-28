@@ -1,0 +1,12 @@
+[
+  {
+    "id" : "{{randomValue}}",
+    "name" : "Rama",
+    "gender" : "male"
+  },
+  {
+    "id" : "{{randomValue}}",
+    "name" : "Sita",
+    "gender" : "female"
+  }
+]
