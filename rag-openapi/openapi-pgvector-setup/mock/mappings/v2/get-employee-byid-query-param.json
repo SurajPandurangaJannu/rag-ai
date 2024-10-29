@@ -1,6 +1,6 @@
 {
   "request": {
-    "urlPath": "/v1/employee",
+    "urlPath": "/v2/employee",
     "method": "GET",
     "queryParameters": {
       "employeeId": {
@@ -16,7 +16,8 @@
       "gender": "female"
     },
     "headers": {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "version": "v2"
     }
   }
 }

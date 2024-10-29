@@ -1,2 +1,3 @@
 - https://app.swaggerhub.com/search
+- https://goofmint.github.io/cURLtoSwagger/
 - 

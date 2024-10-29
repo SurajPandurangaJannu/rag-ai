@@ -1,0 +1,14 @@
+{
+  "request": {
+    "urlPathPattern": "/v2/employee/([a-zA-Z0-9]+)",
+    "method": "DELETE"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "employeeId": "{{request.pathSegments.[2]}}",
+      "version": "v2"
+    }
+  }
+}

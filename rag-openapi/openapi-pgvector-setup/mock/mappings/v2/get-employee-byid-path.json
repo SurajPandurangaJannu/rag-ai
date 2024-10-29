@@ -1,0 +1,18 @@
+{
+  "request": {
+    "urlPathPattern": "/v2/employee/([a-zA-Z0-9]+)",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "employeeId": "{{request.pathSegments.[2]}}",
+      "name": "Savitha",
+      "gender": "female"
+    },
+    "headers": {
+      "Content-Type": "application/json",
+      "version": "v2"
+    }
+  }
+}

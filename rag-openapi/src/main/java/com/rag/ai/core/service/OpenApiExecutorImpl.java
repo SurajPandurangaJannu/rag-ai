@@ -50,7 +50,7 @@ public class OpenApiExecutorImpl implements IOpenApiExecutor {
 
     @Override
     public Response execute(ExecuteRequest executeRequest) {
-        final SearchRequest request = SearchRequest.query(executeRequest.getMessage()).withTopK(1);
+        final SearchRequest request = SearchRequest.query(executeRequest.getMessage()).withTopK(4);
         final List<Document> vectorDocuments = vectorStore.similaritySearch(request);
         final List<String> documentList = vectorDocuments.stream().map(document -> document.getMetadata().toString()).toList();
         final String documents = documentList.stream().collect(Collectors.joining(System.lineSeparator()));
@@ -66,6 +66,7 @@ public class OpenApiExecutorImpl implements IOpenApiExecutor {
             final Request template = beanOutputConverter.convert(response);
             return restAPIExecutor.execute(template);
         } catch (Exception e) {
+            log.error(e.getMessage(),e);
             throw  new NoMatchFoundException(response);
         }
     }

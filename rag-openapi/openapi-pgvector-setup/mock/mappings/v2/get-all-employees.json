@@ -1,0 +1,14 @@
+{
+  "request": {
+    "url": "/v2/employees",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "v2/get-all-employees.json",
+    "headers": {
+      "Content-Type": "application/json",
+      "version": "v2"
+    }
+  }
+}

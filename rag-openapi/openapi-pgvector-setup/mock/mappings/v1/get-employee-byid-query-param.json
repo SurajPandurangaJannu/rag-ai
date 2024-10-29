@@ -2,7 +2,7 @@
   "request": {
     "urlPath": "/v1/employee",
     "method": "GET",
-    "headers": {
+    "queryParameters": {
       "employeeId": {
         "matches": "([a-zA-Z0-9]+)"
       }
@@ -11,12 +11,13 @@
   "response": {
     "status": 200,
     "jsonBody": {
-      "employeeId": "{{request.headers.employeeId}}",
+      "employeeId": "{{request.query.employeeId}}",
       "name": "Savitha",
       "gender": "female"
     },
     "headers": {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "version": "v1"
     }
   }
 }

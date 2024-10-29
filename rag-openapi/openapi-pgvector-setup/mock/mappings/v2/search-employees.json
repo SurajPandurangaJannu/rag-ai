@@ -1,6 +1,6 @@
 {
   "request": {
-    "urlPath": "/v1/employees/search",
+    "urlPath": "/v2/employees/search",
     "method": "GET",
     "headers": {
       "name": {
@@ -18,10 +18,10 @@
   },
   "response": {
     "status": 200,
-    "bodyFileName": "v1/search-employees.json",
+    "bodyFileName": "v2/search-employees.json",
     "headers": {
       "Content-Type": "application/json",
-      "version": "v1"
+      "version": "v2"
     }
   }
 }

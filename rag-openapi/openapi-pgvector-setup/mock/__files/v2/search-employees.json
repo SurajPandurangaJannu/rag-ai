@@ -1,12 +1,12 @@
 [
   {
     "id" : "{{randomValue}}",
-    "name" : "{{request.headers.name}} Rama v1",
+    "name" : "{{request.headers.name}} Rama v2",
     "gender" : "male"
   },
   {
     "id" : "{{randomValue}}",
-    "name" : "{{request.headers.name}} Sita v1",
+    "name" : "{{request.headers.name}} Sita v2",
     "gender" : "female"
   }
 ]

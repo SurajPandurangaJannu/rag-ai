@@ -1,0 +1,26 @@
+{
+  "request": {
+    "urlPath": "/v2/employee",
+    "method": "POST",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": "$[?(@.name =~ /[a-zA-Z0-9]+/)]"
+      },
+      {
+        "matchesJsonPath": "$[?(@.gender =~ /^(male|female)$/)]"
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "employeeId": "{{randomValue}}",
+      "name": "{{jsonPath request.body '$.name'}}",
+      "gender": "{{jsonPath request.body '$.gender'}}"
+    },
+    "headers": {
+      "Content-Type": "application/json",
+      "version": "v2"
+    }
+  }
+}

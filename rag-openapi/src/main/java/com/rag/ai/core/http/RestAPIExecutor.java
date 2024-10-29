@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public class RestAPIExecutor {
@@ -56,13 +57,13 @@ public class RestAPIExecutor {
             }
         }
 
-//        String queryParams = request.getQueryParams() != null ?
-//                request.getQueryParams().entrySet().stream()
-//                        .map(e -> e.getKey() + "=" + e.getValue())
-//                        .collect(Collectors.joining("&", "?", ""))
-//                : "";
+        final String queryParams = request.queryParams() != null ?
+                request.queryParams().entrySet().stream()
+                        .map(e -> e.getKey() + "=" + e.getValue())
+                        .collect(Collectors.joining("&", "?", ""))
+                : "";
 
-        return request.urls().get(0) + path;
+        return request.urls().get(0) + path + queryParams;
     }
 
 }

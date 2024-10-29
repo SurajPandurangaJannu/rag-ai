@@ -1,0 +1,133 @@
+openapi: 3.0.0
+servers:
+  - description: SwaggerHub API for employee
+    url: http://localhost:9090/v2
+info:
+  version: "v2"
+  title: employees-apis
+  description: The API's for the employee entity
+paths:
+  /employees:
+    get:
+      operationId: getAllEmployees
+      summary: "Retrieve all employees"
+      description: "return all registered employees"
+      responses:
+        '200':
+          description: employee successfully retrieved
+  /employees/search:
+    get:
+      operationId: searchEmployees
+      summary: "Search employees"
+      description: "Search for registered employees"
+      parameters:
+        - in: query
+          name: skip
+          description: Skip number of employees
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: limit
+          description: Limit the number of employees in response
+          schema:
+            type: integer
+            format: int32
+        - in: header
+          name: name
+          description: Employee name
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successfully searched registered employees
+  /employee/{employeeId}:
+    get:
+      operationId: getEmployeeByIdFromPath
+      summary: "Retrieve employee by its employeeId from Path variable"
+      description: "return registered employee by its path employeeId value"
+      parameters:
+        - in: path
+          name: employeeId
+          required: true
+          description: Id of an Employee
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successfully retrieved employee
+    put:
+      operationId: updateEmployee
+      summary: "Update employee by its employeeId"
+      description: "Update registered employee by its employeeId value"
+      parameters:
+        - in: path
+          name: employeeId
+          required: true
+          description: Id of an Employee
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeEntity'
+      responses:
+        '200':
+          description: successfully updated employee
+    delete:
+      operationId: deleteEmployee
+      summary: "Delete employee by its employeeId"
+      description: "Delete registered employee by its employeeId value"
+      parameters:
+        - in: path
+          name: employeeId
+          required: true
+          description: Id of an Employee
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successfully deleted employee
+  /employee:
+    get:
+      operationId: getEmployeeByIdFromQueryParam
+      summary: "Retrieve employee by its employeeId from query parameter value"
+      description: "return registered employee by its query parameter employeeId value"
+      parameters:
+        - in: query
+          name: employeeId
+          description: Id of an Employee
+          schema:
+            type: string
+        - in: header
+          name: employeeId
+          description: Id of an Employee
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successfully fetched employee
+    post:
+      operationId: createEmployee
+      summary: "Create employee"
+      description: "register employee"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeEntity'
+      responses:
+        '200':
+          description: successfully created employee
+components:
+  schemas:
+    EmployeeEntity:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'Sandya'
+        gender:
+          type: string
+          example: 'male'
