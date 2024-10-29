@@ -1,14 +1,12 @@
 package com.rag.ai.core.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.rag.ai.core.IOpenAPIProvider;
 import com.rag.ai.core.IOpenApiExecutor;
 import com.rag.ai.core.IOpenApiVector;
 import com.rag.ai.core.model.OpenAPIRequest;
-import com.rag.ai.core.model.Response;
+import com.rag.ai.core.model.ExecutionResponse;
 import com.rag.ai.model.ExecuteRequest;
 import io.swagger.v3.oas.models.OpenAPI;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -40,7 +38,7 @@ public class OpenApiProviderImpl implements IOpenAPIProvider {
     }
 
     @Override
-    public Response execute(ExecuteRequest executeRequest) {
+    public ExecutionResponse execute(ExecuteRequest executeRequest) {
         return openApiExecutor.execute(executeRequest);
     }
 }

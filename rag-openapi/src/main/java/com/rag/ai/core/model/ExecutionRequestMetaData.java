@@ -1,12 +1,11 @@
 package com.rag.ai.core.model;
 
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
-import com.rag.ai.core.service.OpenApiVectorImpl;
 
 import java.util.List;
 import java.util.Map;
 
-public record Request(
+public record ExecutionRequestMetaData(
         @JsonPropertyDescription("OpenAPI specification title")
         String title,
         @JsonPropertyDescription("OpenAPI specification description")

@@ -12,7 +12,7 @@
     "status": 200,
     "jsonBody": {
       "employeeId": "{{request.query.employeeId}}",
-      "name": "Savitha",
+      "name": "Savitha v1",
       "gender": "female"
     },
     "headers": {

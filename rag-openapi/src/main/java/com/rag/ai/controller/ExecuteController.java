@@ -1,6 +1,6 @@
 package com.rag.ai.controller;
 
-import com.rag.ai.core.model.Response;
+import com.rag.ai.core.model.ExecutionResponse;
 import com.rag.ai.model.ExecuteRequest;
 import com.rag.ai.service.OpenApiService;
 import groovy.util.logging.Slf4j;
@@ -25,7 +25,7 @@ public class ExecuteController {
 
     @PostMapping("/execute")
     public ResponseEntity<Object> executeRequest(@RequestBody ExecuteRequest executeRequest) throws IOException {
-        final Response response = openApiService.execute(executeRequest);
+        final ExecutionResponse response = openApiService.execute(executeRequest);
         log.info("Received the response {} {}", response.statusCode(),response.body());
         if (response.body() == null){
             return new ResponseEntity<>(response.httpHeaders(),response.statusCode());

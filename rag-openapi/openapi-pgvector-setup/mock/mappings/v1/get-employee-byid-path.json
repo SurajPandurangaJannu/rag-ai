@@ -7,7 +7,7 @@
     "status": 200,
     "jsonBody": {
       "employeeId": "{{request.pathSegments.[2]}}",
-      "name": "Savitha",
+      "name": "Savitha v1",
       "gender": "female"
     },
     "headers": {

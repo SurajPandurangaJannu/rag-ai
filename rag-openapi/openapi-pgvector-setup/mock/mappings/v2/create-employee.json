@@ -15,7 +15,7 @@
     "status": 200,
     "jsonBody": {
       "employeeId": "{{randomValue}}",
-      "name": "{{jsonPath request.body '$.name'}}",
+      "name": "{{jsonPath request.body '$.name'}} v2",
       "gender": "{{jsonPath request.body '$.gender'}}"
     },
     "headers": {

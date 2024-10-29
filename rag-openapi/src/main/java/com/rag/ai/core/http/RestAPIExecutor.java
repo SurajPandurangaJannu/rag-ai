@@ -1,7 +1,7 @@
 package com.rag.ai.core.http;
 
-import com.rag.ai.core.model.Request;
-import com.rag.ai.core.model.Response;
+import com.rag.ai.core.model.ExecutionRequestMetaData;
+import com.rag.ai.core.model.ExecutionResponse;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -23,7 +23,7 @@ public class RestAPIExecutor {
         this.restTemplate = restTemplate;
     }
 
-    public Response execute(Request request) {
+    public ExecutionResponse execute(ExecutionRequestMetaData request) {
         final HttpHeaders headers = new HttpHeaders();
         if (request.headers() != null) {
             headers.setAll(request.headers());
@@ -32,7 +32,7 @@ public class RestAPIExecutor {
         final HttpMethod httpMethod = getHttpMethod(request.httpMethod());
         final String url = generateUrl(request);
         final ResponseEntity<Object> executionResponse = restTemplate.exchange(url, httpMethod, entity, Object.class, request.pathParams());
-        return new Response(executionResponse.getBody(),executionResponse.getStatusCode(), getFilteredHeaders(executionResponse));
+        return new ExecutionResponse(executionResponse.getBody(),executionResponse.getStatusCode(), getFilteredHeaders(executionResponse));
     }
 
     private static HttpHeaders getFilteredHeaders(ResponseEntity<Object> executionResponse) {
@@ -49,7 +49,7 @@ public class RestAPIExecutor {
         return HttpMethod.valueOf(httpMethod.toUpperCase());
     }
 
-    private String generateUrl(Request request) {
+    private String generateUrl(ExecutionRequestMetaData request) {
         String path = request.path();
         if (request.pathParams() != null) {
             for (Map.Entry<String, String> entry : request.pathParams().entrySet()) {

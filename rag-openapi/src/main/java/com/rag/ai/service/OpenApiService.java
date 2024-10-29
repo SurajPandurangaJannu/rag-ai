@@ -3,7 +3,7 @@ package com.rag.ai.service;
 import com.rag.ai.core.IOpenAPIProvider;
 import com.rag.ai.core.model.OpenAPIRequest;
 import com.rag.ai.core.model.OpenAPIResponse;
-import com.rag.ai.core.model.Response;
+import com.rag.ai.core.model.ExecutionResponse;
 import com.rag.ai.model.ExecuteRequest;
 import io.swagger.v3.oas.models.OpenAPI;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class OpenApiService {
         return new OpenAPIResponse(openAPI);
     }
 
-    public Response execute(ExecuteRequest executeRequest) throws IOException {
+    public ExecutionResponse execute(ExecuteRequest executeRequest) throws IOException {
         return openAPIProvider.execute(executeRequest);
     }
 
