@@ -13,6 +13,20 @@
     3. The JSON document is used to execute the API with custom logics
     4. The end result(JSON) is presented to end user.
 
+### Try out commands
+- execute "read all employees"
+- execute "retrieve all employees from version v1"
+- execute "Get all employees from version v2"
+- execute "read employee from path employeeId 12345"
+- execute "retrieve employee from path employeeId 12345 and from version v1"
+- execute "Get employee from path employeeId 12345 and from version v2"
+- execute "read employee from query param employeeId 12345"
+- execute "read employee from header employeeId 12345"
+- execute "Create employee with name as sahana and gender as female"
+- execute "Update employee with name as sahana and gender as female for employeeId sample"
+- execute "Delete employee with employeeId sample"
+- execute "search employee with skip value of 2 and limit value of 10 with header name value of sahana from version v1"
+
 ### Useful Links
 - https://app.swaggerhub.com/search
 - https://goofmint.github.io/cURLtoSwagger

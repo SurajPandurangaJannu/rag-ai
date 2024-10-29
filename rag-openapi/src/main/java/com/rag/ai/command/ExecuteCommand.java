@@ -1,8 +1,8 @@
 package com.rag.ai.command;
 
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rag.ai.core.model.ExecutionResponse;
+import com.rag.ai.exception.NoMatchFoundException;
 import com.rag.ai.model.ExecuteRequest;
 import com.rag.ai.service.OpenApiService;
 import groovy.util.logging.Slf4j;
@@ -21,17 +21,20 @@ public class ExecuteCommand {
     private final OpenApiService openApiService;
     private final ObjectMapper objectMapper;
 
-    public ExecuteCommand(OpenApiService openApiService,ObjectMapper objectMapper) {
+    public ExecuteCommand(OpenApiService openApiService, ObjectMapper objectMapper) {
         this.openApiService = openApiService;
         this.objectMapper = objectMapper;
-        this.objectMapper.setDefaultPrettyPrinter(new DefaultPrettyPrinter());
     }
 
     @Command(command = "execute")
-    public String executeRequest(@ShellOption String message) throws IOException {
-        final ExecutionResponse response = openApiService.execute(new ExecuteRequest(message));
-        log.info("Received the response {} {}", response.statusCode(),response.body());
-        return objectMapper.writeValueAsString(response);
+    public Object executeRequest(@ShellOption String message) throws IOException {
+        try {
+            final ExecutionResponse response = openApiService.execute(new ExecuteRequest(message));
+            log.info("Received the response {}", response.statusCode());
+            return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(response);
+        } catch (NoMatchFoundException e) {
+            return e.getMessage();
+        }
     }
 
 }
