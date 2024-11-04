@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>OpenAPI Chat Interface</title>
+    <style>
+        /* Base styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #007bff;
+            text-align: center;
+        }
+
+        /* Upload section */
+        .upload-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #eef6ff;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px dashed #007bff;
+        }
+        .upload-section input[type="file"] {
+            display: none;
+        }
+        .upload-label {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .upload-section button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Chat styling */
+        .chat-container {
+            height: 600px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background-color: #f9fafb;
+        }
+        .chat-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 10px 15px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            line-height: 1.4em;
+            max-width: 75%;
+            word-wrap: break-word;
+        }
+        .user-message {
+            background-color: #d1e7ff;
+            color: #007bff;
+            align-self: flex-end;
+            text-align: right;
+        }
+        .bot-message {
+            background-color: #f0f0f0;
+            color: #333;
+            align-self: flex-start;
+            text-align: left;
+            font-family: monospace; /* Better for JSON display */
+            white-space: pre-wrap; /* Allows JSON formatting */
+        }
+
+        /* Chat input section */
+        .chat-input {
+            display: flex;
+            padding: 20px;
+            border-top: 1px solid #ccc;
+            background-color: #f8f9fa;
+        }
+        .chat-input input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            font-size: 1em;
+            margin-right: 10px;
+        }
+        .chat-input button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .chat-input button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>OpenAPI Chat Interface</h2>
+    <div class="upload-section">
+        <label for="apiFile" class="upload-label">Choose File</label>
+        <input type="file" id="apiFile" accept=".yaml,.json">
+        <button onclick="uploadFile()">Upload</button>
+    </div>
+
+    <div class="chat-container">
+        <div class="chat-messages" id="chatMessages">
+            <!-- Messages will be inserted here -->
+        </div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Type your message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    const uploadEndpoint1 = /*[[${uploadEndpoint}]]*/ '';
+    const chatEndpoint1 = /*[[${chatEndpoint}]]*/ '';
+
+
+    console.log(uploadEndpoint1);
+    console.log(chatEndpoint1);
+
+    const baseUrl = /*[[${baseUrl}]]*/ '';
+
+    const uploadEndpoint = baseUrl + `/openapi/upload`;
+    const chatEndpoint = baseUrl + `/openapi/chat`;
+
+    console.log(uploadEndpoint);
+    console.log(chatEndpoint);
+    console.log(baseUrl);
+
+    async function uploadFile() {
+        const fileInput = document.getElementById('apiFile');
+        const file = fileInput.files[0];
+
+        if (!file) {
+            alert('Please select a file first');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const response = await fetch(uploadEndpoint, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                alert('File uploaded successfully');
+            } else {
+                alert('Upload failed');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Upload failed');
+        }
+    }
+
+    async function sendMessage() {
+        const input = document.getElementById('userInput');
+        const userPrompt = input.value.trim();
+
+        if (!userPrompt) return;
+
+        addMessage(userPrompt, 'user');
+        input.value = '';
+
+        try {
+            const response = await fetch(chatEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ prompt: userPrompt })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            addMessage(JSON.stringify(data, null, 2), 'bot');
+        } catch (error) {
+            console.error('Error:', error);
+            addMessage('Sorry, there was an error processing your message.', 'bot');
+        }
+    }
+
+    function addMessage(message, type) {
+        const chatMessages = document.getElementById('chatMessages');
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', type === 'user' ? 'user-message' : 'bot-message');
+        messageDiv.textContent = message;
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    document.getElementById('userInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+</script>
+</body>
+</html>

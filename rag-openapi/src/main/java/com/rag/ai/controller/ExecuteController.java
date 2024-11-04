@@ -33,4 +33,9 @@ public class ExecuteController {
         return new ResponseEntity<>(response.body(),response.httpHeaders(),response.statusCode());
     }
 
+    @PostMapping("/chat")
+    public ResponseEntity<Object> chat(@RequestBody String message) throws IOException {
+        return executeRequest(new ExecuteRequest(message));
+    }
+
 }

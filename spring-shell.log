@@ -1,0 +1,18 @@
+1730204416711:quit
+1730204642949:clear
+1730204848509:execute "read employee from path employeeId 12345"
+1730204917138:execute "Get employee from path employeeId 12345 and from version v2"
+1730204949672:clear
+1730204951096:execute "read employee from query param employeeId 12345"
+1730204994831:clear
+1730205000018:execute "read employee from header employeeId 12345"
+1730205040875:clear
+1730205042837:execute "Create employee with name as sahana and gender as female"
+1730205077107:execute "Update employee with name as sahana and gender as female for employeeId sample"
+1730205094593:clear
+1730205100904:execute "Delete employee with employeeId sample"
+1730205119307:clear
+1730205127737:execute "search employee with skip value of 2 and limit value of 10 with header name value of sahana from version v1"
+1730206499202:quit
+1730533005355:excute "get all employees v2"
+1730533015755:execute "get all employees v2"
